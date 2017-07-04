@@ -5,30 +5,29 @@
       <div class="Header">
         <h1>Погодный информер</h1>
       </div>
-  
+
+      <div class="Fields">
       <fieldset>
         <legend>Выберите точку земного шара</legend>
         <form class="form-inline">
           <label class="sr-only" for="inlineFormInput">Latitude</label>
-          <input type="text" v-model="coordinates.latitude" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Долгота">
-  
+          <input type="text" v-model="coordinates.latitude" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormLong" placeholder="Долгота">
           <label class="sr-only" for="inlineFormInputGroup">Longitude</label>
-          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-            <input type="text" v-model="coordinates.longitude" class="form-control" id="inlineFormInputGroup" placeholder="Широта">
-          </div>
+          <input type="text" v-model="coordinates.longitude" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormLati" placeholder="Широта">
   
-          <button v-on:click="greet" class="btn btn-primary">Найти</button>
-          {{coordinates}}
-  <aside class="PullQuote">
-    <img src="../assets/open.png"> Погода не отвечает за выполнение прогнозов погоды. Мы тоже...
-    <img src="../assets/close.png">
-  
-  </aside>
+          <button v-on:click="greet" class="btn btn-primary" name="onGreet">Найти</button>
         </form>
-        <input type="checkbox" id="checkbox" v-model="checked">
-        <label for="checkbox">Использовать геолокацию</label>
+      </fieldset>
+      <fieldset>
+          <input type="checkbox" id="GeoOnCheck" v-on:click="ongeo" v-model="checked">
+          <label for="checkbox">Использовать геолокацию</label>
       </fieldset>
 
+      </div>
+      <div class="PullQuote">
+        <img src="../assets/open.png"> Погода не отвечает за выполнение прогнозов погоды. Мы тоже...
+        <img src="../assets/close.png">
+      </div>
 
       <table class="table">
         <thead>
@@ -137,6 +136,27 @@ export default {
       if (event) {
         alert(event.target.tagName)
       }
+    },
+    geolocationSuccess: function (position) {
+      alert('прихали')
+    },
+    geolocationFailure: function (poserror) {
+      alert('кирдык')
+    },
+    ongeo: function (params) {
+      function success (position) {
+        alert('SUCCESS(' + position.coords + '): ')
+        alert('qqq')
+      }
+      function error (err) {
+        alert('ERROR(' + err.code + '): ' + err.message)
+      }
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(success, error)
+        alert('поехали')
+      } else {
+        alert('нетути')
+      }
     }
   }
 }
@@ -179,7 +199,7 @@ th {
   color: #ffe;
   text-align: left;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 1em;
+  font-size: 0.9em;
 }
 
 
@@ -187,9 +207,10 @@ th {
   color: #000000;
   text-align: center;
   font-size: small;
-  position: fixed; 
-  left: 40%; bottom: 0; 
-  padding: 10px; 
+  left: 0%; bottom: 100%;
+  position: relative;
+  padding: 10px;
+  margin-top: 150px;
 }
 
 .Footer .Disclaimer {
@@ -206,9 +227,12 @@ body {
   background-color: transparent;
   background-image: url("../assets/bg.jpg");
 }
-
-aside {
-  float: right;
+.Fields {
+  float: left;
+  margin-left: 20px;
+}
+.PullQuote {
+  float: right; 
   max-width: 300px;
   border-top: thin black solid;
   border-bottom: thin black solid;
@@ -216,12 +240,14 @@ aside {
   line-height: 130%;
   font-style: italic;
   padding-top: 5px;	
-  padding-bottom: 2px;	
-  margin-left: 15px;
-  margin-bottom: 10px;
+  padding-bottom: 5px;
+  padding: 10px;	
+  margin-left: 20px;
+  position: relative;
+  right: 10%;
 }
 
-aside img {
+.PullQuote img {
   width:40px;
   height:30px;
   vertical-align: bottom;
