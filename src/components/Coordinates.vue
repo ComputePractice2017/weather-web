@@ -19,8 +19,7 @@
         </form>
       </fieldset>
       <fieldset>
-          <input type="checkbox" id="GeoOnCheck" v-on:click="ongeo" v-model="checked">
-          <label for="checkbox">Использовать геолокацию</label>
+          <button v-on:click="ongeo" class="btn btn-primary" name="GeoOnCheck">Геолокация</button>
       </fieldset>
 
       </div>
@@ -145,15 +144,15 @@ export default {
     },
     ongeo: function (params) {
       function success (position) {
-        alert('SUCCESS(' + position.coords + '): ')
-        alert('qqq')
+        alert('SUCCESS(' + position.coords.latitude + ', ' + position.coords.longitude + '): ')
+        document.getElementById('inlineFormLong').value = position.coords.latitude
+        document.getElementById('inlineFormLati').value = position.coords.longitude
       }
       function error (err) {
         alert('ERROR(' + err.code + '): ' + err.message)
       }
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(success, error)
-        alert('поехали')
       } else {
         alert('нетути')
       }
@@ -165,7 +164,7 @@ export default {
 <style>
 .form-inline {
   margin-top: 0px;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
 
 .Header {
@@ -180,6 +179,7 @@ export default {
 
 fieldset {
   color: #000000;
+  padding-bottom: 10px;
 }
 
 .table {
@@ -199,7 +199,7 @@ th {
   color: #ffe;
   text-align: left;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.9em;
+  font-size: 1em;
 }
 
 
