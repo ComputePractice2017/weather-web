@@ -15,11 +15,11 @@
           <label class="sr-only" for="inlineFormInputGroup">Longitude</label>
           <input type="text" v-model="coordinates.longitude" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormLati" placeholder="Широта">
   
-          <button v-on:click="greet" class="btn btn-primary" name="onGreet">Найти</button>
+          <button v-on:click="onWeather" class="btn btn-primary" name="GetWeather">Найти</button>
         </form>
       </fieldset>
       <fieldset>
-          <button v-on:click="ongeo" class="btn btn-primary" name="GeoOnCheck">Геолокация</button>
+          <button v-on:click="onGeo" class="btn btn-primary" name="GeoOnCheck">Геолокация</button>
       </fieldset>
 
       </div>
@@ -128,21 +128,15 @@ export default {
   },
 
   methods: {
-    greet: function (event) {
+    onWeather: function (event) {
       // `this` внутри методов указывает на экземпляр Vue
       alert('Привет, ' + this.name + '!')
       // `event` — нативное событие DOM
       if (event) {
-        alert(event.target.tagName)
+        alert(event.target.name)
       }
     },
-    geolocationSuccess: function (position) {
-      alert('прихали')
-    },
-    geolocationFailure: function (poserror) {
-      alert('кирдык')
-    },
-    ongeo: function (params) {
+    onGeo: function (params) {
       function success (position) {
         alert('SUCCESS(' + position.coords.latitude + ', ' + position.coords.longitude + '): ')
         document.getElementById('inlineFormLong').value = position.coords.latitude
@@ -154,7 +148,7 @@ export default {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(success, error)
       } else {
-        alert('нетути')
+        alert('Видимо геолокация не поддерживаеися данным браузером')
       }
     }
   }
