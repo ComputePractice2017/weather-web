@@ -32,7 +32,7 @@
         <thead>
           <tr>
             <th>Дата</th>
-            <th>28.06</th>
+            <th>{{information.Date}}</th>
             <th>29.06</th>
             <th>30.06</th>
             <th>31.06</th>
@@ -89,9 +89,19 @@
           <tr>
             <th scope="row">Температура подстилающей поверхности (C)</th>
             <td>{{information.TemperatureSurface}}</td>
+            <td>{{information.TemperatureSurface}}</td>
+            <td>{{information.TemperatureSurface}}</td>
+            <td>{{information.TemperatureSurface}}</td>
+            <td>{{information.TemperatureSurface}}</td>
+            <td>{{information.TemperatureSurface}}</td>
           </tr>
           <tr>
             <th scope="row">Температура воздуха на высоте 2 м (C)</th>
+            <td>{{information.AirTemperature}}</td>
+            <td>{{information.AirTemperature}}</td>
+            <td>{{information.AirTemperature}}</td>
+            <td>{{information.AirTemperature}}</td>
+            <td>{{information.AirTemperature}}</td>
             <td>{{information.AirTemperature}}</td>
           </tr>
         </tbody>
@@ -116,6 +126,7 @@ export default {
         'longitude': ''
       },
       information: {
+        'Date': '28.08',
         'WindZonal': '-2.3',
         'WindMeridional': '-9.1',
         'AtmosphericPressure': '682',
@@ -129,12 +140,15 @@ export default {
 
   methods: {
     onWeather: function (event) {
-      // `this` внутри методов указывает на экземпляр Vue
-      alert('Привет, ' + this.name + '!')
-      // `event` — нативное событие DOM
-      if (event) {
-        alert(event.target.name)
-      }
+      var latitude = document.getElementById('inlineFormLong').value
+      var longitude = document.getElementById('inlineFormLati').value
+      var query = '/data/' + latitude + '/' + longitude
+      this.$http.get(query).then(response => {
+        this.information = response.body
+        console.log(this.information)
+      }, response => {
+        console.log(response)
+      })
     },
     onGeo: function (params) {
       function success (position) {
@@ -156,11 +170,6 @@ export default {
 </script>
 
 <style>
-.form-inline {
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-
 .Header {
   background-color: #6495ED;
   color: #ffe;
